@@ -2,7 +2,6 @@ import Cookies from 'js-cookie'
 import { Auth } from '../plugins/firebase-client-init'
 
 export const state = () => ({
-  uid: null,
   user: null
 })
 
@@ -40,7 +39,7 @@ export const actions = {
     commit('setUSER', null)
   },
 
-  async setUSER({ commit, dispatch }, user) {
+  async setUSER({ commit }, user) {
     const token = await Auth.currentUser.getIdToken(true)
     const userData = {
       name: user.displayName,
@@ -49,6 +48,7 @@ export const actions = {
     }
 
     Cookies.set('__session', token)
+    commit('setUSER', userData)
   }
 }
 
